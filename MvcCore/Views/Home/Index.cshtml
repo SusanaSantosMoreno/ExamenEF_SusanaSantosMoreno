@@ -1,1 +1,87 @@
-﻿<h1>Home</h1>
+﻿@model List<Coches>
+
+<div class="card my-3">
+    <div class="card-body p-3">
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Modelo</label>
+                <input type="text" class="form-control" name="modelo">
+            </div>
+            <div class="row w-100 m-0">
+                <div class="col-6 p-0">
+                    <a class="btn btn-outline-dark" asp-action="Create" asp-controller="Home">Create New</a>
+                </div>
+                <div class="col-6 mr-0 pr-0">
+                    <button type="submit" class="btn btn-outline-dark float-right">Buscar</button>
+                    <a class="btn btn-outline-dark float-right mr-3" asp-action="Index" asp-controller="Home">Limpiar</a>
+                </div>
+                
+            </div>
+        </form>
+    </div>
+</div>
+<table class="table table-striped mt-3">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">Marca</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Conductor</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Coches coche in Model) {
+            <tr>
+                <td>@coche.Marca</td>
+                <td>@coche.Modelo</td>
+                <td>@coche.Conductor</td>
+                <td><a asp-action="Update" asp-controller="Home" asp-route-idCoche="@coche.IdCoche">Update</a></td>
+                <td> <a asp-action="Details" asp-controller="Home" asp-route-idCoche="@coche.IdCoche">Details</a></td>
+                <td> <a href="#" class="deleteBtn" data-toggle="modal" data-target="#deleteModal" data-coche="@coche.IdCoche">Delete</a></td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ¿Quieres eliminar al el coche?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="eliminarCoche" data-idCoche="0">Eliminar</button>
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script type="text/javascript">
+        $(".deleteBtn").click(function () {
+            console.log($(this).data("coche"));
+            $("#eliminarCoche").data("idcoche", $(this).data("coche")); 
+        })
+        $("#eliminarCoche").click(function () {
+            $.ajax({
+                url: "@Url.Action("Delete", "Home")",
+                type: "POST",
+                data: {
+                    idCoche: $(this).data("idcoche")
+                }
+            })
+            .done(function () {
+               window.location.reload(); 
+            });
+        })
+    </script>
+}
+

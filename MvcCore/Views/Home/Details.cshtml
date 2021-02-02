@@ -1,0 +1,43 @@
+﻿@model MvcCore.Models.Coches
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Coches</h4>
+    <hr />
+    <div class="row">
+        <div class="col">
+            <img src="@Html.DisplayFor(model => model.Imagen)" class="img-fluid" alt=@Html.DisplayFor(model => model.Marca)>
+        </div>
+        <div class="col">
+            <dl class="row">
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Marca)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Marca)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Modelo)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Modelo)
+                </dd>
+                <dt class="col-sm-2">
+                    @Html.DisplayNameFor(model => model.Conductor)
+                </dt>
+                <dd class="col-sm-10">
+                    @Html.DisplayFor(model => model.Conductor)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="mt-3">
+    <a asp-action="Update" asp-route-idCoche="@Model.IdCoche">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
